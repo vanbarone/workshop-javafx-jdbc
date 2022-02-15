@@ -9,6 +9,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+	
+	private static Scene mainScene;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -19,7 +22,7 @@ public class Main extends Application {
 			//Scene mainScene = new Scene(scroll);
 			
 			Parent parent = loader.load();
-			Scene mainScene = new Scene(parent);
+			mainScene = new Scene(parent);
 			
 			
 			primaryStage.setScene(mainScene);
@@ -28,6 +31,10 @@ public class Main extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Scene getMainScene() {
+		return mainScene;
 	}
 
 	public static void main(String[] args) {
