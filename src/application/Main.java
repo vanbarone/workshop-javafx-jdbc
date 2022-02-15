@@ -13,8 +13,15 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
+			
+			//ScrollBar scroll = loader.load();
+			//scroll.resize(0, 0);
+			//Scene mainScene = new Scene(scroll);
+			
 			Parent parent = loader.load();
 			Scene mainScene = new Scene(parent);
+			
+			
 			primaryStage.setScene(mainScene);
 			primaryStage.setTitle("Sample JavaFX application");
 			primaryStage.show();
