@@ -33,7 +33,7 @@ public class DepartmentFormController implements Initializable{
 	private TextField txtId;
 	
 	@FXML
-	private TextField txtnome;
+	private TextField txtNome;
 	
 	@FXML 
 	private Label lblErrorName;
@@ -88,12 +88,12 @@ public class DepartmentFormController implements Initializable{
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		initializrNodes();
+		initializeNodes();
 	}
 	
-	private void initializrNodes() {
+	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtId);
-		Constraints.setTextFieldMaxLength(txtnome, 30);
+		Constraints.setTextFieldMaxLength(txtNome, 30);
 	}
 
 	public void updateFormData() {
@@ -102,7 +102,7 @@ public class DepartmentFormController implements Initializable{
 		}
 		
 		txtId.setText(String.valueOf(entity.getId()));
-		txtnome.setText(entity.getName());
+		txtNome.setText(entity.getName());
 	}
 	
 	public Department getFormData() {
@@ -112,11 +112,11 @@ public class DepartmentFormController implements Initializable{
 		
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
 		
-		if (txtnome.getText() == null || txtnome.getText().trim().equals("")) {
+		if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
 			exception.addError("name", "Field can´t be empty");
 		}
 		
-		obj.setName(txtnome.getText());
+		obj.setName(txtNome.getText());
 		
 		if (exception.getErrors().size() > 0) {
 			throw exception;

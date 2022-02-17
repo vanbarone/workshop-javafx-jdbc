@@ -1,8 +1,11 @@
 package gui;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -17,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.entities.Seller;
@@ -33,10 +37,28 @@ public class SellerFormController implements Initializable{
 	private TextField txtId;
 	
 	@FXML
-	private TextField txtnome;
+	private TextField txtNome;
 	
 	@FXML 
 	private Label lblErrorName;
+	
+	@FXML
+	private TextField txtEmail;
+	
+	@FXML 
+	private Label lblErrorEmail;
+	
+	@FXML
+	private DatePicker dtpBirthDate;
+	
+	@FXML 
+	private Label lblErrorBirthDate;
+	
+	@FXML
+	private TextField txtBaseSalary;
+	
+	@FXML 
+	private Label lblErrorBaseSalary;
 	
 	@FXML
 	private Button btnSave;
@@ -85,15 +107,17 @@ public class SellerFormController implements Initializable{
 		Utils.currentStage(event).close();
 	}
 	
-	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		initializrNodes();
+		initializeNodes();
 	}
 	
-	private void initializrNodes() {
+	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtId);
-		Constraints.setTextFieldMaxLength(txtnome, 30);
+		Constraints.setTextFieldMaxLength(txtNome, 70);
+		Constraints.setTextFieldMaxLength(txtEmail, 100);
+		Constraints.setTextFieldDouble(txtBaseSalary);
+		Utils.formatDatePicker(dtpBirthDate, "dd/MM/yyyy");
 	}
 
 	public void updateFormData() {
@@ -102,7 +126,15 @@ public class SellerFormController implements Initializable{
 		}
 		
 		txtId.setText(String.valueOf(entity.getId()));
-		txtnome.setText(entity.getName());
+		txtNome.setText(entity.getName());
+		txtEmail.setText(entity.getEmail());
+		
+		if (entity.getBirthDate() != null) {
+			dtpBirthDate.setValue(LocalDate.ofInstant(entity.getBirthDate().toInstant(), ZoneId.systemDefault()));
+		}
+		
+		Locale.setDefault(Locale.US);
+		txtBaseSalary.setText(String.format("%.2f", entity.getBaseSalary()));
 	}
 	
 	public Seller getFormData() {
@@ -112,11 +144,11 @@ public class SellerFormController implements Initializable{
 		
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
 		
-		if (txtnome.getText() == null || txtnome.getText().trim().equals("")) {
+		if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
 			exception.addError("name", "Field can´t be empty");
 		}
 		
-		obj.setName(txtnome.getText());
+		obj.setName(txtNome.getText());
 		
 		if (exception.getErrors().size() > 0) {
 			throw exception;
@@ -137,8 +169,6 @@ public class SellerFormController implements Initializable{
 		if (fields.contains("name")) {
 			lblErrorName.setText(errors.get("name"));
 		}
-		
-		
 	}
 	
 }
